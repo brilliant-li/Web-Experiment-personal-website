@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<title>中二区间</title>
+	<link rel="stylesheet" href="./e3_3_css.css">
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<div class="showbox" id="showbox">
+		<div class="passage">
+			<div class="tips">
+				<a href="e3_1.html" bind="#pop-rules1">返回主页</a>
+			</div>
+			<p>&nbsp;&nbsp;你和一个人聊天很舒服</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;你觉得你俩太投缘了</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么他的情商和知识含量肯定是远超你的</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;只要他愿意...</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他可以和每个你这个级别的人..</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;都达到这种心有灵犀的程度..</p>
+		</div>
+		<ul class="imgbox" id="imgbox">
+			<li>
+				<img src="6f0b50cec16d2fd53507c7f808ab9280_hd.jpg" alt="" class="image">
+			</li>
+			<li>
+				<img src="483179c175dbded5817bd22be0b1cbde_r.jpg" alt="" class="image">
+			</li>
+			<li>
+				<img src="e4be3d21f220d55749643c482f751bcd_r.jpg" alt="" class="image">
+			</li>
+			<li>
+				<img src="u=1441782944,3627626102&fm=26&gp=0.jpg" alt="" class="image">
+			</li>
+			<li>
+				<img src="f4051cc6b95459bdb3f9ea987f165412_hd.jpg" alt="" class="image">
+			</li>
+		</ul>
+		<ul class="buttons" id="buttons">
+			<li class="on"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="prev" id="prev"></div>
+		<div class="next" id="next"></div>
+	</div>
+	
+
+    <script>
+        window.onload = function(){
+		//获取变量
+		var prev = document.getElementById("prev");
+		var next = document.getElementById("next");
+		var showbox = document.getElementById("showbox");
+		var imgs = imgbox.getElementsByTagName("img");
+		// var passage = imgbox.getElementsByTagName("p");
+		var list = buttons.getElementsByTagName("li");
+		var timer = null;
+		var index = 0;
+		// 设置自动播放函数
+		timer = setInterval( autoPlay,2000 );
+
+		//鼠标滑过容器停止播放,左右箭头出现
+		showbox.onmouseover = function(){
+			prev.style.display = "block";
+			next.style.display = "block";
+			clearInterval(timer);
+		}
+		// 鼠标离开容器时继续播放下一张,左右箭头消失
+		showbox.onmouseout = function(){
+			prev.style.display = "none";
+			next.style.display = "none";
+			timer = setInterval( autoPlay,2000 );
+		}
+		
+		 // 实现自动轮播
+		function autoPlay(){
+			index++;
+			if( index>=list.length ){ 
+				index = 0;
+			}
+			picture(index);
+		}
+		
+		// 设置点击左边箭头时，图片和按钮随着变化
+		prev.onclick = function(){
+			index--;
+			if(index<0){
+				index=4;
+			}
+			picture(index);
+		};
+		
+		// 设置点击右边箭头时，图片和按钮随着变化
+		next.onclick = function(){
+			index++;
+			if(index>4){
+				index=0;
+			}
+			picture(index);
+		}
+		
+		// 遍历所有圆点实现闪过切换至对应的图片,初始化并给每个按钮添加鼠标点击功能
+		for( var i =0; i<list.length; i++ ){
+			(function(j){//自执行函数，获取i
+				list[j].onclick = function(){
+					picture(j);
+					index = j;
+				}
+			})(i);/*为什么要在最后加(i)? 这是保留i值的方法，
+			通常情况下，因为一些效果我们需要获取到for循环中的i的值，
+			但是往往拿到的都是最后一个i的值，所以通过这种方法来获取i值。*/
+		}
+		
+		// 根据按钮显示当前的图片
+		function picture(offset){
+			for( var i= 0;i<list.length ;i++ ){
+				imgs[i].className = "unshow";
+				list[i].className="";
+				// passage[i].className = "unshow";
+			}
+			imgs[offset].className = "show";
+			// passage[offset].className="show";
+			list[offset].className = "on";
+		}
+	};
+
+    </script>
+</div>
+</body>
+</html>
